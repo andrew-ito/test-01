@@ -2,6 +2,8 @@ package main
 import (
         "net/http"
         "io"
+        "os"
+        "fmt"
 )
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
@@ -10,6 +12,11 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 
 
 func main() {
+    port, exists := os.LookupEnv("GOLANG_PORT")
+
+    if exists {
         http.HandleFunc("/hello", helloHandler)
-        http.ListenAndServe(":8080", nil)
+        http.ListenAndServe(':'+port, nil)
+    	fmt.Print("Port = "+port)
+   }
 }
