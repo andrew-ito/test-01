@@ -1,9 +1,12 @@
 version: '3'
 services:
   app:
+    env_file:
+    - .env
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: golang-app
     restart: unless-stopped
     tty: true
     working_dir: /
@@ -11,8 +14,8 @@ services:
     - app-network
 
   webserver:
-    environment:
-    - GOLANG_PORT
+    env_file:
+    - .env
     volumes:
     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     image: nginx:alpine

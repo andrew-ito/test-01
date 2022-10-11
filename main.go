@@ -12,10 +12,10 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 
 
 func main() {
-    port, exists := os.LookupEnv("GOLANG_PORT")
+    port, exists := os.LookupEnv("golang_port")
 
     if exists {
-    	fmt.Print("Port = "+port)
+        fmt.Print("Port = "+port)
         http.HandleFunc("/hello", helloHandler)
         http.ListenAndServe(":"+port, nil)
     } else {
