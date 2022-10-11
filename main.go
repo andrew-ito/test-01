@@ -15,8 +15,13 @@ func main() {
     port, exists := os.LookupEnv("GOLANG_PORT")
 
     if exists {
-        http.HandleFunc("/hello", helloHandler)
-        http.ListenAndServe(':'+port, nil)
     	fmt.Print("Port = "+port)
-   }
+        http.HandleFunc("/hello", helloHandler)
+        http.ListenAndServe(":"+port, nil)
+    } else {
+        fmt.Println("No any port in env variables.")
+        fmt.Println("Port will be 8080")
+        http.HandleFunc("/hello", helloHandler)
+        http.ListenAndServe(":8080", nil)
+    }
 }

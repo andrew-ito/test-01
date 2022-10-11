@@ -8,9 +8,9 @@ RUN go build -o test .
 
 FROM alpine:3.16.2
 WORKDIR /
-
+ENV GOLANG_PORT $GOLANG_PORT
 COPY --from=build /app/test ./test
 
-EXPOSE 8080
+EXPOSE $GOLANG_PORT
 
 CMD ["./test"]

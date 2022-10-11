@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    tty: true
+    working_dir: /
+    networks:
+    - app-network
+
+  webserver:
+    environment:
+    - GOLANG_PORT
+    volumes:
+    - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    depends_on:
+    - app
+    ports:
+      - 80:80
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
