@@ -6,11 +6,16 @@ stages:
 
 test_api:
   stage: test
+  tags:
+    - test
   script:
     - go build -o test .
 
 build_docker:
   stage: build
+  tags:
+    - api
+    - test
   script:
     - docker-compose down
     - docker-compose build
