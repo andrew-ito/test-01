@@ -2,7 +2,7 @@ image: golang:1.12-alpine
 
 workflow:
   rules:
-    - if: '$CI_COMMIT_BRANCH != ("master" | "dev")'
+    - if: ('$CI_COMMIT_BRANCH != "master"') | ('$CI_COMMIT_BRANCH != "dev"')
       when: never
 
 stages:
