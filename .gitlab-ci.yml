@@ -1,0 +1,16 @@
+image: golang:latest
+
+stages:
+  - test
+  - build
+
+test_api:
+  stage: test
+  script:
+    - go build -o test .
+
+build_docker:
+  stage: build
+  script:
+    - docker-compose down
+    - docker-compose build
