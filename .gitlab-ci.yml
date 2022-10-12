@@ -12,6 +12,7 @@ test_api:
     - go build -o test .
 
 build_docker:
+    image: docker:latest
     services:
     - docker:dind
     # tags:
