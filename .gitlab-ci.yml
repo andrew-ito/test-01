@@ -6,14 +6,17 @@ stages:
 
 test_api:
   stage: test
-  # tags:
-  #   - test
+  tags:
+    - test
   script:
     - go build -o test .
 
 build_docker:
     services:
     - docker:dind
+    tags:
+    - test
+    - api
     before_script:
       - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     script:
