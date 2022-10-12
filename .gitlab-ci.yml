@@ -16,8 +16,6 @@ build_docker:
     - docker:dind
     before_script:
       - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    # Default branch leaves tag empty (= latest tag)
-    # All other branches are tagged with the escaped branch name (commit ref slug)
     script:
       - |
         if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
@@ -29,7 +27,6 @@ build_docker:
         fi
       - docker build -t "$CI_REGISTRY_IMAGE${tag}" .
       - docker push "$CI_REGISTRY_IMAGE${tag}"
-    # Run this job in a branch where a Dockerfile exists
     rules:
       - if: $CI_COMMIT_BRANCH
         exists:
