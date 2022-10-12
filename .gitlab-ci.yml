@@ -17,5 +17,4 @@ build_docker:
   #   - api
   #   - test
   script:
-    - docker-compose down
-    - docker-compose build
+    - docker build .
