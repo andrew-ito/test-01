@@ -35,13 +35,13 @@ build_docker:
           tag=":$CI_COMMIT_REF_SLUG"
           echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
         fi
-      - docker build -t "$CI_REGISTRY_IMAGE${tag}" .
+      - docker build -t "test-01:latest" .
       - echo "$CI_REGISTRY_IMAGE${tag}"
       - echo $CI_REGISTRY_IMAGE
       - echo $tag
 
 
-      - docker push "$CI_REGISTRY_IMAGE${tag}"
+      - docker push "test-01:latest"
     rules:
       - if: $CI_COMMIT_BRANCH
         exists:
