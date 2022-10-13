@@ -41,7 +41,7 @@ build_docker:
       - echo $tag
 
 
-      - docker push "${DOCKERHUB_USERNAME}/test-01:latest"
+      - docker push "test-01:latest"
     rules:
       - if: $CI_COMMIT_BRANCH
         exists:
