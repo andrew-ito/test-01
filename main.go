@@ -11,7 +11,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 
-func main() {
+unc main() {
     port, exists := os.LookupEnv("golang_port")
 
     if exists {
