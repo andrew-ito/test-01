@@ -15,7 +15,7 @@ test_api:
   # tags:
   #   - test
   script:
-    - go build -o test .
+    - gofmt -e main.go
 
 build_docker:
     image: docker:latest
