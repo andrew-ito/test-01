@@ -35,8 +35,6 @@ build_docker:
           tag=":$CI_COMMIT_REF_SLUG"
           echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
         fi
-      - echo $tag
-      - echo $CI_PROJECT_NAME
       - docker build -t $CI_PROJECT_NAME:$tag .
       - docker tag $CI_PROJECT_NAME:$tag $DOCKERHUB_USERNAME/$CI_PROJECT_NAME:$tag
       - docker push $DOCKERHUB_USERNAME/$CI_PROJECT_NAME:$tag
