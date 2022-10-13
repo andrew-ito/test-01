@@ -39,9 +39,9 @@ build_docker:
       - echo "$CI_REGISTRY_IMAGE${tag}"
       - echo $CI_REGISTRY_IMAGE
       - echo $tag
+      - docker tag test-01:latest $DOCKERHUB_USERNAME/test-01:latest
 
-
-      - docker push "test-01:latest"
+      - docker push $DOCKERHUB_USERNAME/test-01:latest
     rules:
       - if: $CI_COMMIT_BRANCH
         exists:
