@@ -27,13 +27,14 @@ jobs:
       run: echo $(git rev-parse --short "$GITHUB_SHA") && echo ${GITHUB_REF#refs/heads/} && tag = "latest"
     - name: Building image
       run: docker build -t task-01:latest .
-#           if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
-#             tag="latest"
-#             echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = latest'"
-#           else
-#             tag="$CI_COMMIT_REF_SLUG"
-#             echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
-#           fi
+    - name: Tag definition
+    - run: if [[ ${GITHUB_REF#refs/heads/} == "main" ]]; then
+             tag="latest"
+             echo "Running on default branch ${GITHUB_REF#refs/heads/} tag = 'latest'"
+          else
+            tag=$(git rev-parse --short "$GITHUB_SHA")
+            echo "Running on branch ${GITHUB_REF#refs/heads/} tag = $tag"
+          fi
     - name: Tagging image
       run: docker tag ${{ github.event.repository.name }}:$tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:$tag
     - name: Pushing to Dockerhub
