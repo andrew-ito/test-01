@@ -47,6 +47,7 @@ jobs:
       uses: ravsamhq/notify-slack-action@v2
       with:
         channel_id: C0468AG5E77
+        notify_when: 'failure'
         status: FAILED
         color: danger
 
