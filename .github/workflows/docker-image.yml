@@ -39,5 +39,15 @@ jobs:
       run: docker tag ${{ github.event.repository.name }}:$tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:$tag
     - name: Pushing to Dockerhub
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:$tag
+      
+    - name: Notify slack fail
+      if: failure()
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
+      uses: ravsamhq/notify-slack-action@v2
+      with:
+        channel_id: C0468AG5E77
+        status: FAILED
+        color: danger
 
 
