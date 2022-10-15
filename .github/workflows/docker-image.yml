@@ -56,6 +56,5 @@ jobs:
       with:
         status: ${{ job.status }}
         notify_when: 'failure'
-        status: FAILED
 
 
