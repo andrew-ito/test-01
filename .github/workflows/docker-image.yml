@@ -1,0 +1,41 @@
+name: Golang APP CI
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+    tags: \d{1,2}\.\d{1,2}\.\d{1,2}
+  pull_request:
+    branches: [ "main", "dev" ]
+
+jobs:
+  
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test golang API
+      run: gofmt -e main.go
+  
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+#     - uses: actions/checkout@v3
+    - name: Login to Dockerhub
+      run: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+    - name: Testing variables
+      run: echo $(git rev-parse --short "$GITHUB_SHA") && echo ${GITHUB_REF#refs/heads/} && tag = "latest"
+    - name: Building image
+      run: docker build -t task-01:latest .
+#           if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+#             tag="latest"
+#             echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = latest'"
+#           else
+#             tag="$CI_COMMIT_REF_SLUG"
+#             echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+#           fi
+    - name: Tagging image
+      run: docker tag ${{ github.event.repository.name }}:$tag $DOCKERHUB_USERNAME/${{ github.event.repository.name }}:$tag
+    - name: Pushing to Dockerhub
+      run: docker push $DOCKERHUB_USERNAME/${{ github.event.repository.name }}:$tag
+
+
