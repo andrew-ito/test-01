@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  slack: circleci/slack@3
+  slack: circleci/slack@3.5.5
 
 jobs:
   test:
@@ -13,8 +13,9 @@ jobs:
           name: "Testing Golang file for right syntax"
           command: "gofmt -e main.go"
       - slack/notify:
-          event: pass
-          custom: Failed pipeline 
+          message: "Failed notifs"
+          color: "#42e2f4" # Optional: Assign custom colors for each notification
+          webhook: $SLACK_WEBHOOK
   
   build:
     machine:
