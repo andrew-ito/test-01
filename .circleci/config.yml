@@ -10,6 +10,7 @@ jobs:
           name: "Testing Golang file for right syntax"
           command: "gofeemt -e main.go"
       - run:
+          working_directory: ~/
           name: Slack notifications
           command: ./curl_script.sh
           when: on_fail
