@@ -12,28 +12,27 @@ jobs:
       - run:
           name: Slack notifications
           command: $CURL_FUNC
+          # command: curl -X POST -H 'Content-type: application/json' --form '{"text":"Failed pipeline"}' https://hooks.slack.com/services/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
           when: on_fail
-      # - slack/notify:
-      #     message: "Failed notifs"
   
-  build:
-    machine:
-      image: ubuntu-2204:2022.04.2
-    steps:
-      - checkout
-      - run:
-          name: Login to Dockerhub
-          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
-      - run:
-          name: Building image
-          command: docker build -t $DOCKERHUB_USERNAME/test-01:latest .
-      - run:
-          name: Pushing to Dockerhub
-          command: docker push $DOCKERHUB_USERNAME/test-01:latest
-      - run:
-          name: Slack notifications
-          command: $CURL_FUNC
-          when: on_fail
+  # build:
+  #   machine:
+  #     image: ubuntu-2204:2022.04.2
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Login to Dockerhub
+  #         command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+  #     - run:
+  #         name: Building image
+  #         command: docker build -t $DOCKERHUB_USERNAME/test-01:latest .
+  #     - run:
+  #         name: Pushing to Dockerhub
+  #         command: docker push $DOCKERHUB_USERNAME/test-01:latest
+  #     - run:
+  #         name: Slack notifications
+  #         command: $CURL_FUNC
+  #         when: on_fail
   
 workflows:
   golang-api-workflow:
@@ -47,14 +46,14 @@ workflows:
             tags:
               only:
                 - \d{1,2}\.\d{1,2}\.\d{1,2}
-      - build:
-          requires:
-            - test
-          filters:
-            branches:
-              only:
-                - main
-                - dev
-            tags:
-              only:
-                - \d{1,2}\.\d{1,2}\.\d{1,2}
+      # - build:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only:
+      #           - main
+      #           - dev
+      #       tags:
+      #         only:
+      #           - \d{1,2}\.\d{1,2}\.\d{1,2}
