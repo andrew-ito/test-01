@@ -1,0 +1,1 @@
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Failed pipeline. https://app.circleci.com/projects/github/andrew-ito/test-01"}' https://hooks.slack.com/services/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
