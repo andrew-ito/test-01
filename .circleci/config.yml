@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.4.4
+
 jobs:
   test:
     docker:
@@ -7,11 +10,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Try
-          command: curl https://hooks.slack.com/services/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
-      - run:
           name: "Testing Golang file for right syntax"
           command: "gofeeemt -e main.go"
+      - slack/notify:
+          event: fail 
+          custom: Failed pipeline 
   
   build:
     machine:
