@@ -11,7 +11,7 @@ jobs:
           command: "gofeemt -e main.go"
       - run:
           name: Slack notifications
-          command: $CURL_FUNC
+          command: curl -X POST -H 'Content-type: application/json' --data '{"text":"Failed pipeline"}' https://hooks.slack.com/services/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
           when: on_fail
       # - slack/notify:
       #     message: "Failed notifs"
