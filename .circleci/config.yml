@@ -43,9 +43,6 @@ workflows:
       - build
       - slack/on-hold:
           context: slack-secrets
-          filters:
-            tags:
-              only: /^v.*/
           requires:
             - test
             - build
