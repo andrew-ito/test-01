@@ -11,9 +11,9 @@ jobs:
       - checkout
       - run:
           name: "Testing Golang file for right syntax"
-          command: "gofeeemt -e main.go"
+          command: "gofmt -e main.go"
       - slack/notify:
-          event: fail 
+          event: pass
           custom: Failed pipeline 
   
   build:
