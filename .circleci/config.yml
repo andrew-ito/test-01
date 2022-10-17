@@ -1,36 +1,7 @@
 version: 2.1
+
 orbs:
   slack: circleci/slack@4.1
-slack-fail-post-step:
-  post-steps:
-    - slack/notify:
-        custom: |
-          {
-            "text": "",
-            "blocks": [
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "❌ *Failure* #${CIRCLE_BUILD_NUM} `${CIRCLE_PROJECT_REPONAME}` on `${CIRCLE_BRANCH}`"
-                }
-              },
-              {
-                "type": "actions",
-                "elements": [
-                  {
-                    "type": "button",
-                    "text": {
-                      "type": "plain_text",
-                      "text": "View Job"
-                    },
-                    "url": "${SLACK_WEBHOOK}"
-                  }
-                ]
-              }
-            ]
-          }
-        event: fail
 
 jobs:
   test:
@@ -60,8 +31,10 @@ jobs:
           name: Pushing to Dockerhub
           command: docker push $DOCKERHUB_USERNAME/test-01:latest
       - slack/notify:
-          event: fail
-          template: basic_fail_1
+          color: "#42e2f4"
+          message: A custom message to notify the channel about the latest build
+      - slack/status:
+          fail_only: true
   
 workflows:
   golang-api-workflow:
@@ -86,8 +59,3 @@ workflows:
             tags:
               only:
                 - \d{1,2}\.\d{1,2}\.\d{1,2}
-      - slack/on-hold:
-          context: slack-secrets
-          requires:
-            - test
-            - build
