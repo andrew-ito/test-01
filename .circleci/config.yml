@@ -3,6 +3,7 @@ version: 2.1
 jobs:
   test:
     docker:
+      - image: ubuntu-2204:2022.04.2
       - image: circleci/golang:1.13.8
     steps:
       - checkout
@@ -10,9 +11,8 @@ jobs:
           name: "Testing Golang file for right syntax"
           command: "gofeemt -e main.go"
       - run:
-          working_directory: ~/
           name: Slack notifications
-          command: ./curl_script.sh
+          command: $CURL_FUNC
           when: on_fail
       # - slack/notify:
       #     message: "Failed notifs"
