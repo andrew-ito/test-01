@@ -1,6 +1,37 @@
 version: 2.1
 orbs:
   slack: circleci/slack@4.1
+slack-fail-post-step:
+  post-steps:
+    - slack/notify:
+        custom: |
+          {
+            "text": "",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "❌ *Failure* #${CIRCLE_BUILD_NUM} `${CIRCLE_PROJECT_REPONAME}` on `${CIRCLE_BRANCH}`"
+                }
+              },
+              {
+                "type": "actions",
+                "elements": [
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "View Job"
+                    },
+                    "url": "${SLACK_WEBHOOK}"
+                  }
+                ]
+              }
+            ]
+          }
+        event: fail
+
 jobs:
   test:
     docker:
@@ -35,8 +66,26 @@ jobs:
 workflows:
   golang-api-workflow:
     jobs:
-      - test
-      - build
+      - test:
+          filters:
+            branches:
+              only:
+                - main
+                - dev
+            tags:
+              only:
+                - \d{1,2}\.\d{1,2}\.\d{1,2}
+      - build:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - main
+                - dev
+            tags:
+              only:
+                - \d{1,2}\.\d{1,2}\.\d{1,2}
       - slack/on-hold:
           context: slack-secrets
           requires:
