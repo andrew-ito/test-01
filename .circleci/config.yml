@@ -1,6 +1,6 @@
 version: 2.1
-# orbs:
-#   slack: circleci/slack@4.1
+orbs:
+  slack: circleci/slack@4.1
 jobs:
   test:
     docker:
@@ -9,10 +9,10 @@ jobs:
       - checkout
       - run:
           name: "Testing Golang file for right syntax"
-          command: "gofmt -e main.go"
-#       - slack/notify:
-#           event: fail
-#           template: basic_fail_1
+          command: "gofeeemt -e main.go"
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
   
   build:
     machine:
@@ -32,9 +32,20 @@ jobs:
       - run:
           name: Pushing to Dockerhub
           command: docker push $DOCKERHUB_USERNAME/test-01:latest
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
   
 workflows:
   golang-api-workflow:
     jobs:
       - test
       - build
+      - slack/on-hold:
+          context: slack-secrets
+          filters:
+            tags:
+              only: /^v.*/
+          requires:
+            - test
+            - build
