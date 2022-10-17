@@ -7,15 +7,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Try
-          command: $curl_func
-          # command: curl -X POST -H "{Content-Type: application/json}" -d "{text: Failed pipeline}" https://hooks.slack.com/services/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
-          # command:  curl -X POST -d '{"text": "Failed pipeline"}' https://hooks.slack.com/services/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
-          # name: Try
-          # command:  curl -i -X POST -d "name=check-x-header" --url https://hooks.slack.com/services/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
-      - run:
           name: "Testing Golang file for right syntax"
-          command: "gofmt -e main.go"
+          command: "gofeemt -e main.go"
+      - run:
+          name: Slack notifications
+          command: $CURL_FUNC
+          when: on_fail
       # - slack/notify:
       #     message: "Failed notifs"
       #     color: "#42e2f4" # Optional: Assign custom colors for each notification
@@ -35,6 +32,10 @@ jobs:
       - run:
           name: Pushing to Dockerhub
           command: docker push $DOCKERHUB_USERNAME/test-01:latest
+      - run:
+          name: Slack notifications
+          command: $CURL_FUNC
+          when: on_fail
   
 workflows:
   golang-api-workflow:
