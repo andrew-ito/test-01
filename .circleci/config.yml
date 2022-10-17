@@ -11,7 +11,8 @@ jobs:
       - checkout
       - run:
           name: Try
-          command:  curl -X POST --data-urlencode "text=Hello&icon_emoji=:ghost:" https://hooks.slack.com/services/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
+          command: $CURL_FUNC
+          # command:  curl -X POST -H "{Content-Type: application/json}" -d "{text: Failed pipeline}" https://hooks.slack.com/services/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
           # name: Try
           # command:  curl -i -X POST -d "name=check-x-header" --url https://hooks.slack.com/services/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
       - run:
