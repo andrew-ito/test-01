@@ -31,10 +31,8 @@ jobs:
           name: Pushing to Dockerhub
           command: docker push $DOCKERHUB_USERNAME/test-01:latest
       - slack/notify:
-          color: "#42e2f4"
-          message: A custom message to notify the channel about the latest build
-      - slack/status:
-          fail_only: true
+          event: fail
+          template: basic_fail_1
   
 workflows:
   golang-api-workflow:
