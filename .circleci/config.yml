@@ -16,7 +16,6 @@ jobs:
       # - slack/notify:
       #     message: "Failed notifs"
       #     color: "#42e2f4" # Optional: Assign custom colors for each notification
-      #     webhook: $SLACK_WEBHOOK
   
   build:
     machine:
