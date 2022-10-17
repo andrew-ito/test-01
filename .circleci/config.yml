@@ -21,13 +21,13 @@ jobs:
       - checkout
       - run:
           name: Login to Dockerhub
-          command: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
       - run:
           name: Building image
-          command: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:$(git rev-parse --short "$GITHUB_SHA") .
+          command: docker build -t $DOCKERHUB_USERNAME/test-01:latest .
       - run:
           name: Pushing to Dockerhub
-          command: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:$(git rev-parse --short "$GITHUB_SHA")
+          command: docker push $DOCKERHUB_USERNAME/test-01:latest
   
 workflows:
   golang-api-workflow:
