@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: "Testing Golang file for right syntax"
-          command: "gofeemt -e main.go"
+          command: "gofmt -e main.go"
       - run:
           name: Slack notifications
           command: >
